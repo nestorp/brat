@@ -194,12 +194,12 @@ input.invalid_value {
 .type_scroller { /* TODO remove */
     overflow-y: scroll;
     min-height: 50px;
-    max-height: 300px;
+    max-height: 100px;
 }
 
 /* BEGIN new entity and event dialog style */
 .split_wrapper {
-  height: 300px;
+  height: 100px;
   /* HACK tweaking to avoid overflows. */
   padding-bottom: 2.5em;
   /* end HACK */

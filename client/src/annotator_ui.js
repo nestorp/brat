@@ -34,6 +34,8 @@ var AnnotatorUI = (function($, window, undefined) {
       var selRect = null;
       var lastStartRec = null;
       var lastEndRec = null;
+      
+      var separatorString = '~~';
 
       var draggedArcHeight = 30;
       var spanTypesToShowBeforeCollapse = 30;
@@ -700,6 +702,9 @@ var AnnotatorUI = (function($, window, undefined) {
           }
           $('#span_form_split').hide();
           $('#span_notes').val('');
+          $('#s_query_notes').val('');
+          $('#url_notes').val('');
+          $('#snippet_notes').val('');
           showAllAttributes = true;
         }
         if (span && !reselectedSpan) {
@@ -708,6 +713,10 @@ var AnnotatorUI = (function($, window, undefined) {
           keymap[$.ui.keyCode.INSERT] = 'span_form_reselect';
           keymap['S-' + $.ui.keyCode.ENTER] = 'span_form_add_fragment';
           $('#span_notes').val(span.annotatorNotes || '');
+          $('#s_query_notes').val($('#span_notes').val().split(separatorString)[0] || '');
+          $('#url_notes').val($('#span_notes').val().split(separatorString)[1] || '');
+          $('#snippet_notes').val($('#span_notes').val().split(separatorString)[2] || '');
+          
         } else {
           $('#span_form_reselect, #span_form_delete, #span_form_add_fragment').hide();
           keymap[$.ui.keyCode.DELETE] = null;
@@ -1003,6 +1012,9 @@ var AnnotatorUI = (function($, window, undefined) {
 
       var clearSpanNotes = function(evt) {
         $('#span_notes').val('');
+        $('#s_query_notes').val('');
+        $('#url_notes').val('');
+        $('#snippet_notes').val('');
       }
       $('#clear_notes_button').button();
       $('#clear_notes_button').click(clearSpanNotes);
@@ -2381,6 +2393,15 @@ var AnnotatorUI = (function($, window, undefined) {
 
       var spanFormSubmit = function(evt, typeRadio) {
         typeRadio = typeRadio || $('#span_form input:radio:checked');
+        var s_query_notes = $('#s_query_notes').val();
+        var url_notes = $('#url_notes').val();
+        var snippet_notes = $('#snippet_notes').val();
+        var notes_merged = s_query_notes + separatorString + url_notes + separatorString + snippet_notes;
+        //console.info(s_query_notes);
+        //console.info(url_notes);
+        //console.info(snippet_notes);
+        //console.info(s_query_notes + separatorString + url_notes + separatorString + snippet_notes);
+        //console.info(notes_merged);
         var type = typeRadio.val();
         $('#span_form-ok').blur();
         dispatcher.post('hideForm');
@@ -2389,7 +2410,8 @@ var AnnotatorUI = (function($, window, undefined) {
           collection: coll,
           'document': doc,
           type: type,
-          comment: $('#span_notes').val()
+          // comment: $('#span_notes').val()
+          comment: notes_merged
         });
 
         spanOptions.attributes = $.toJSON(spanAttributes());
