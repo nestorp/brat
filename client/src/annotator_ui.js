@@ -39,6 +39,8 @@ var AnnotatorUI = (function($, window, undefined) {
 
       var draggedArcHeight = 30;
       var maxNormSearchHistory = 10;
+      
+      var separatorString = '~~';
 
       // TODO: this is an ugly hack, remove (see comment with assignment)
       var lastRapidAnnotationEvent = null;
