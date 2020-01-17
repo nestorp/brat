@@ -2633,6 +2633,7 @@ var AnnotatorUI = (function($, window, undefined) {
         var s_query_notes = $('#s_query_notes').val();
         var url_notes = $('#url_notes').val();
         var snippet_notes = $('#snippet_notes').val();
+        snippet_notes = snippet_notes.split('\n').join('. ');
         var notes_merged = s_query_notes + separatorString + url_notes + separatorString + snippet_notes;
         var type = typeRadio.val();
         $('#span_form-ok').blur();
